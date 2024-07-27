@@ -27,7 +27,7 @@ func parseEpoch(val []byte) int {
 	return time
 }
 
-func calculate(exp [][]byte) int {
+func calculateTime(exp [][]byte) int {
 	var result int = 0
 	var add bool = true
 

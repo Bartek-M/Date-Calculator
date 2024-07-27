@@ -5,15 +5,19 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 )
 
-func getInput() string {
+type calcFunc = func(exp [][]byte) int
+type formatFunc = func(int) string
+
+func getInput(entryText string) string {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	fmt.Print("time > ")
+	fmt.Print(entryText)
 	scanner.Scan()
 
-	return scanner.Text()
+	return strings.TrimSpace(strings.ToLower(scanner.Text()))
 }
 
 func parseInput(text []byte) [][]byte {
@@ -25,11 +29,42 @@ func parseInput(text []byte) [][]byte {
 }
 
 func main() {
-	fmt.Print("Datetime Calculator\n\n")
+	fmt.Print("Datetime Calculator\n")
 
-	text := getInput()
-	exp := parseInput([]byte(text))
+	var run = true
+	var menu bool = true
 
-	result := calculate(exp)
-	fmt.Printf("|- %s\n\n", formatTime(result))
+	var calculate calcFunc
+	var format formatFunc
+	var entry string = "\n[time | date] > "
+
+	for run {
+		inpt := getInput(entry)
+
+		if menu {
+			if inpt != "time" && inpt != "date" {
+				continue
+			}
+
+			inpt = fmt.Sprintf("/%s", inpt)
+			menu = false
+		}
+
+		switch inpt {
+		case "/time":
+			calculate = calculateTime
+			format = formatTime
+			entry = "\ntime > "
+		case "/date":
+			calculate = calculateDate
+			format = formatDate
+			entry = "\ndate > "
+		case "quit", "exit":
+			run = false
+		default:
+			exp := parseInput([]byte(inpt))
+			result := calculate(exp)
+			fmt.Printf("|- %s\n", format(result))
+		}
+	}
 }
