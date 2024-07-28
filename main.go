@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-type calculateFunc = func([][]byte) int
-type formatFunc = func(int) string
+type calculateFunc = func([][]byte) (int, bool)
+type formatFunc = func(int, bool) string
 
 func getInput(entryText string) string {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -21,7 +21,7 @@ func getInput(entryText string) string {
 }
 
 func parseInput(text []byte) [][]byte {
-	re := regexp.MustCompile(`\s(\+|-)\s|[0-9:/-]*`)
+	re := regexp.MustCompile(`\s(\+|-)\s|[0-9.:/-]*`)
 	arr := re.FindAll(text, -1)
 
 	return arr
@@ -62,8 +62,8 @@ func main() {
 			run = false
 		default:
 			exp := parseInput([]byte(inpt))
-			result := calculate(exp)
-			fmt.Printf("|- %s\n", format(result))
+			result, formatType := calculate(exp)
+			fmt.Printf("|- %s\n", format(result, formatType))
 		}
 	}
 }

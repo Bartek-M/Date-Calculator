@@ -27,7 +27,7 @@ func parseTime(val []byte) int {
 	return time
 }
 
-func calculateTime(exp [][]byte) int {
+func calculateTime(exp [][]byte) (int, bool) {
 	var result int = 0
 	var add bool = true
 
@@ -59,10 +59,10 @@ func calculateTime(exp [][]byte) int {
 		}
 	}
 
-	return result
+	return result, false
 }
 
-func formatTime(result int) string {
+func formatTime(result int, _ bool) string {
 	hours := result / 3600
 	result -= hours * 3600
 

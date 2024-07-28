@@ -16,6 +16,8 @@ First pick a mode: `time` or `date`. To change the mode run: `/time` or `/date`.
 
 Remember to use space around plus **'+'** and minus **'-'** signs.
 
+> **NOTE:** To exit the running program type `exit`, `quit` or simply press `CTRL+C`. 
+
 ### `Time formats`
 ```
 h:m:s | m:s | s
@@ -27,12 +29,13 @@ s - any number of seconds
 
 ### `Date formats`
 ```
-DD/MM/YYYY | DD/MM | DD
-DD-MM-YYYY | DD-MM | DD
+DD/MM/YYYY | DD
+DD-MM-YYYY | DD
+DD.MM.YYYY | DD
 
-dd - day of the month 
+dd - days of the month / any number of days
 mm - month of the year
 yyyy - year
 ```
 
-> **NOTE:** To exit the running program type `exit`, `quit` or simply press `CTRL+C`. 
+> **NOTE:** Output type is defined by the last operation: `days` - last operation with date, `date` - last operation with days
