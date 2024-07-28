@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func parseEpoch(val []byte) int {
+func parseTime(val []byte) int {
 	re := regexp.MustCompile(`^\d+(:\d+){0,2}$`)
 	match := re.FindAll(val, -1)
 
@@ -34,15 +34,23 @@ func calculateTime(exp [][]byte) int {
 	for i := 0; i < len(exp); i++ {
 		val := string(exp[i])
 
-		if val == "+" {
+		if val == "" {
+			continue
+		}
+
+		if val == " + " {
 			add = true
 			continue
-		} else if val == "-" {
+		} else if val == " - " {
 			add = false
 			continue
 		}
 
-		var num int = parseEpoch([]byte(val))
+		var num int = parseTime([]byte(val))
+
+		if num == 0 && val != "0" {
+			fmt.Printf("Invalid time format at '%s'\n", val)
+		}
 
 		if !add {
 			result -= num

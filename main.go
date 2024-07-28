@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type calcFunc = func(exp [][]byte) int
+type calculateFunc = func([][]byte) int
 type formatFunc = func(int) string
 
 func getInput(entryText string) string {
@@ -21,20 +21,19 @@ func getInput(entryText string) string {
 }
 
 func parseInput(text []byte) [][]byte {
-	// datePattern := `([0-2][\d]|3[0-1])(/|-|.)(0[1-9]|1[0-2])(/|-|.)(\d{4})`
-	re := regexp.MustCompile(`(\+|-)|[0-9:./]*`)
+	re := regexp.MustCompile(`\s(\+|-)\s|[0-9:/-]*`)
 	arr := re.FindAll(text, -1)
 
 	return arr
 }
 
 func main() {
-	fmt.Print("Datetime Calculator\n")
+	fmt.Println("Datetime Calculator")
 
-	var run = true
+	var run bool = true
 	var menu bool = true
 
-	var calculate calcFunc
+	var calculate calculateFunc
 	var format formatFunc
 	var entry string = "\n[time | date] > "
 

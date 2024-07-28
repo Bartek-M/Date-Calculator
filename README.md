@@ -14,6 +14,8 @@ go build .
 
 First pick a mode: `time` or `date`. To change the mode run: `/time` or `/date`.
 
+Remember to use space around plus **'+'** and minus **'-'** signs.
+
 ### `Time formats`
 ```
 h:m:s | m:s | s
