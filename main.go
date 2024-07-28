@@ -21,7 +21,7 @@ func getInput(entryText string) string {
 }
 
 func parseInput(text []byte) [][]byte {
-	re := regexp.MustCompile(`\s(\+|-)\s|[0-9.:/-]*`)
+	re := regexp.MustCompile(`(now)|\s(\+|-)\s|[0-9.:/-]*`)
 	arr := re.FindAll(text, -1)
 
 	return arr

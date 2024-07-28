@@ -48,22 +48,26 @@ func calculateDate(exp [][]byte) (int, bool) {
 	var add bool = true
 	var formatType bool = true
 
+	day, month, year := 0, 0, 0
+
 	for i := 0; i < len(exp); i++ {
 		val := string(exp[i])
 
-		if val == "" {
+		if val == "" || val == " + " || val == " - " {
+			if val == " - " {
+				add = false
+			} else {
+				add = true
+			}
 			continue
 		}
 
-		if val == " + " {
-			add = true
-			continue
-		} else if val == " - " {
-			add = false
-			continue
+		if val == "now" {
+			date := time.Now()
+			day, month, year = date.Day(), int(date.Month()), date.Year()
+		} else {
+			day, month, year = parseDate([]byte(val))
 		}
-
-		day, month, year := parseDate([]byte(val))
 
 		if day == 0 && month == 0 && year == 0 {
 			fmt.Printf("Invalid time format at '%s'\n", val)

@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func parseTime(val []byte) int {
@@ -17,36 +18,39 @@ func parseTime(val []byte) int {
 	}
 
 	arr := strings.Split(string(match[0]), ":")
-	var time int = 0
+	var seconds int = 0
 
 	for i := 0; i < len(arr); i++ {
 		num, _ := strconv.ParseInt(arr[i], 10, 64)
-		time += int(num) * int(math.Pow(60.0, float64(len(arr)-1-i)))
+		seconds += int(num) * int(math.Pow(60.0, float64(len(arr)-1-i)))
 	}
 
-	return time
+	return seconds
 }
 
 func calculateTime(exp [][]byte) (int, bool) {
-	var result int = 0
+	var result int
+	var num int
 	var add bool = true
 
 	for i := 0; i < len(exp); i++ {
 		val := string(exp[i])
 
-		if val == "" {
+		if val == "" || val == " + " || val == " - " {
+			if val == " - " {
+				add = false
+			} else {
+				add = true
+			}
 			continue
 		}
 
-		if val == " + " {
-			add = true
-			continue
-		} else if val == " - " {
-			add = false
-			continue
+		if val == "now" {
+			now := time.Now()
+			num = (now.Hour() * 3600) + (now.Minute() * 60) + now.Second()
+		} else {
+			num = parseTime([]byte(val))
 		}
-
-		var num int = parseTime([]byte(val))
 
 		if num == 0 && val != "0" {
 			fmt.Printf("Invalid time format at '%s'\n", val)

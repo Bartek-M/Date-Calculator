@@ -25,6 +25,8 @@ h:m:s | m:s | s
 h - any number of hours
 m - any number of minutes
 s - any number of seconds
+
+'now' - current, local time
 ```
 
 ### `Date formats`
@@ -36,6 +38,8 @@ DD.MM.YYYY | DD
 dd - days of the month / any number of days
 mm - month of the year
 yyyy - year
+
+'now' - current, local date
 ```
 
 > **NOTE:** Output type is defined by the last operation: `days` - last operation with date, `date` - last operation with days
